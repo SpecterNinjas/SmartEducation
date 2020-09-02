@@ -1,0 +1,159 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{% static 'css/teachers/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/teachers/teacher.css' %}">
+    <script>
+        $(document).ready(function () {
+            $("#id02").click(function () {
+                $("#id01").fadeOut(900);
+            });
+        });
+    </script>
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+            crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+            integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+            crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body %}
+
+    {% include 'main/navbar.html' %}
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Bootstrap Sidebar</h3>
+                <strong>BS</strong>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li{% if 'flashcard' in request.path %}
+                    style="color: rgba(75, 89, 123, 0.8);background-color: white;"
+                {% endif %}>
+                    <a href="{% url 'main:teachers' %}">
+                        <img src="{% static 'fonts/f.png' %}" style="width: 18px; height: 18px;" alt="Flashcards">
+                        &nbsp;&nbsp;Flashcard
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fab fa-leanpub"></i>
+                        Learn
+                    </a>
+                    <a href="#">
+                        <i class="far fa-edit"></i>
+                        Write
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-microphone"></i>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Spell
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        &nbsp;&nbsp;Test
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'main:about' %}">
+                        <i class="fas fa-question"></i>
+                        &nbsp;&nbsp;&nbsp;&nbsp;FAQ
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'main:contact' %}">
+                        <i class="fas fa-paper-plane"></i>
+                        &nbsp;&nbsp;Contact
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-top: 66px;">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-angle-left d-block mx-auto" style="font-size: 18px;"></i>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation"
+                            style="padding: 5px 12px;">
+
+
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active myclass">
+                                <span style="border-radius: 5px; background-color: rgb(23,162,184);">
+                                <a class="nav-link" style="color: white;" href="#"><img class="btn-create"
+                                                                                        src="{% static 'fonts/create.png' %}"
+                                                                                        alt="">  Create</a>
+                                    </span>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            {% if not user.is_authenticated %}
+
+                <div class="container hoverable" id="id01"
+                     style="border:1px dashed black;border-radius: 6px;background-color: rgba(232,232,232,.6);">
+                    <p style="padding-top: 6px;">Welcome to the <span>SmartEDU <i style="color: rgb(76,90,125)"
+                                                                                  class="far fa-laugh-wink"></i></span>
+                        <span style="float: right;font-size: 25px;">
+                    <button type="button" id="id02"
+                            style="border-radius: 6px;border: 1px solid black; outline: none;">&times;
+                    </button>
+                    </span>
+                    </p>
+                    <hr>
+                    <p>Please, <a href="#" class="text-info" title="Login page">sign in</a> first to create your own flashcards!</p>
+                </div>
+
+            {% endif %}
+            {% if not user.is_authenticated %}
+                <p class="h6 my-2">You didn't created any flashcards yet. <a class="text-info" href="#">create</a></p>
+            {% endif %}
+            <p class="h3 mt-4 ">Popular Flashcards: </p>
+            <hr>
+            {% include 'main/cards.html' %}
+
+            <div class="line"></div>
+
+
+        </div>
+    </div>
+
+    {% include  'main/footer.html' %}
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+
+            });
+        });
+    </script>
+
+
+{% endblock %}
